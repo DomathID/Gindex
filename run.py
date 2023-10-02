@@ -4,15 +4,24 @@ from googleapiclient.http import BatchHttpRequest
 import httplib2
 import json
 from colorama import Fore, Style, init
+import os
 
 init()
 
 JSON_KEY_FILE = "credentials.json"
 SCOPES = ["https://www.googleapis.com/auth/indexing"]
 ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
-credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scopes=SCOPES)
-http = credentials.authorize(httplib2.Http())
 
+if not os.path.isfile(JSON_KEY_FILE):
+    print(f"{Fore.RED}{Style.BRIGHT}File credentials.json tidak ditemukan. Pastikan file tersebut ada dan bernama dengan benar.{Style.RESET_ALL}")
+    exit()
+
+try:
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scopes=SCOPES)
+    http = credentials.authorize(httplib2.Http())
+except Exception as e:
+    print(f"{Fore.RED}{Style.BRIGHT}Terjadi kesalahan dalam memuat credentials.json. Pastikan file tersebut berisi kredensial yang benar.{Style.RESET_ALL}")
+    exit()
 def delete_url(url):
     content = {
         'url': url,

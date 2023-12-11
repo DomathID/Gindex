@@ -37,3 +37,7 @@ This is Example
   "universe_domain": "googleapis.com"
 }
 ```
+
+# How To Use 
+
+https://www.yukinoshita.web.id/2023/10/cara-index-website-dengan-indexing-api.html

@@ -37,6 +37,8 @@ This is Example
   "universe_domain": "googleapis.com"
 }
 ```
+# Support Me
+[ Support ](https://trakteer.id/bang-domath/tip)
 
 # How To Use 
 

@@ -1,5 +1,5 @@
 from oauth2client.service_account import ServiceAccountCredentials
-from googleapiclient.discovery import build 
+from googleapiclient.discovery import build
 from googleapiclient.http import BatchHttpRequest
 import httplib2
 import json
@@ -36,7 +36,10 @@ def delete_url(url):
 
     if 'urlNotificationMetadata' in result:
         print_success(f"URL deleted: {result['urlNotificationMetadata']['url']}")
-        print_success(f"Notify Time: {result['urlNotificationMetadata']['latestUpdate']['notifyTime']}\n")
+        if 'latestUpdate' in result['urlNotificationMetadata']:
+            print_success(f"Notify Time: {result['urlNotificationMetadata']['latestUpdate']['notifyTime']}\n")
+        else:
+            print_error("Response does not contain 'latestUpdate'.")
     else:
         print_error(f"Error in response: {result}")
 
@@ -49,11 +52,13 @@ def send_url(url):
     response, content = http.request(ENDPOINT, method="POST", body=json_content)
     result = json.loads(content.decode())
 
-
     if 'urlNotificationMetadata' in result:
         print_success(f"URL: {result['urlNotificationMetadata']['url']}")
-        print_success(f"Type: {result['urlNotificationMetadata']['latestUpdate']['type']}")
-        print_success(f"Notify Time: {result['urlNotificationMetadata']['latestUpdate']['notifyTime']}\n")
+        if 'latestUpdate' in result['urlNotificationMetadata']:
+            print_success(f"Type: {result['urlNotificationMetadata']['latestUpdate']['type']}")
+            print_success(f"Notify Time: {result['urlNotificationMetadata']['latestUpdate']['notifyTime']}\n")
+        else:
+            print_error("Response does not contain 'latestUpdate'.")
     else:
         print_error(f"Error in response: {result}")
 
@@ -87,7 +92,7 @@ def get_user_input():
 ⠟⠁⣸⣣⡃⢿⣿⣿⣿⣿⠷⠾⢶⣿⣿⣿⣿⣿⡆⣿⡀⢿⣸⡀⠀⠀[ Google Indexing Using Indexing Api ]
 ⠀⢰⠋⠀⠀⠀⠉⠙⠉⠁⢀⣀⡀⠙⠛⠛⠛⠛⠑⡿⣯⣽⠋⣳⡆⠀
 ⠀⠈⠳⢦⣄⡀⠀⠀⠘⣄⣀⣀⠼⠃⠀⠀⢀⠀⠠⠴⠿⠛⠋⠁⠀⠀
-⠀⠀⠀⠀⠀⠉⠉⠓⠒⠒⠤⠤⠤⠤⠔⠚⠁⠀⠀⠀⠀⠀'''
+⠀⠀⠀⠀⠀⠉⠉⠓⠒⠒⠤⠤⠤⠤⠤⠔⠚⠁⠀⠀⠀⠀⠀'''
     print(banner)
     print("Github: DomathID")
     print("=== Menu Alat ===")
@@ -120,5 +125,4 @@ def get_user_input():
 if __name__ == "__main__":
     while get_user_input():
         pass
-
 
